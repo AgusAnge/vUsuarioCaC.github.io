@@ -1,0 +1,154 @@
+/* RESETEADO */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* TITULO */
+.container h1{
+    text-align: center;
+    /* font-family: 'Roboto', sans-serif; */
+    font: bold;
+    margin: 30px 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* TABLA CARRITO DE COMPRAS */
+.table{
+    margin: 0 0 30px 0;
+}
+
+/* BOTON COMPRAR */
+.botonCompra #btnComprar{
+    background-color: rgb(99, 255, 47);
+    color: black;
+    outline: 1px solid rgb(232, 251, 27);
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 20px;
+    transition: all .5s;
+    display: none;
+}
+
+.botonCompra .btnComprar.active{
+    transition: .3s ease all;
+    display: flex;
+}
+
+
+.botonCompra #btnComprar:hover{
+    background-color: rgb(52, 255, 79);
+    outline: 1px solid rgb(169, 255, 32);
+}
+.botonCompra #btnComprar:active{
+    background-color: rgba(000,255, 000, 127);
+}
+
+/* VENTANA EMERGENTE - CONFIRMACION COMPRA */
+.overlay{
+    background-color: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.overlay.active {
+    visibility: visible;
+}
+.popup{
+    background-color: #f8f8f8;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,.5);
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    text-align: center;
+    width: 25vw;
+    height: 20vh;
+    transition: .5s ease all;
+    transform: scale(.7);
+    opacity: 1;
+
+}
+
+.popup .btn-cerrar-popup{
+    font-size: 16px;
+    line-height: 16px;
+    display: block;
+    text-align: right;
+    color: #BBBBBB;
+    transition: .3s ease all;
+}
+.popup .btn-cerrar-popup:hover{
+    color: #000;
+}
+
+.popup h3{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    opacity: 0;
+}
+
+.popup form .btn-submit {
+    padding: 0 40px;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    color: #BBBBBB;
+    background-color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s ease all;
+}
+
+.popup form .btn-submit:hover{
+    opacity: .9;
+}
+.popup form .btn-submit:active{
+    opacity: .8;
+}
+
+/* ANIMACIONES VENTANA EMERGENTE */
+.popup.active{
+    opacity: 1;
+    transform: scale(1);
+}
+
+.popup.active h3{
+    animation: entrada .8s ease .3s forwards;
+    /* nombreAnimacion, duracion, tiempo */
+
+
+}
+/* animacion */
+@keyframes entrada{ 
+    from{
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.card-body{
+    margin: 5px 10px;
+    border-top: 1px solid #BBBBBB;
+    border-radius: 0 15px 0 0;
+}
+
+
+.card-img-top{
+    width: 100%;
+    height: 243px;
+    object-fit: contain;
+}
