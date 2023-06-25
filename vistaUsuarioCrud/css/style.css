@@ -70,8 +70,8 @@
     font-family: 'Montserrat', sans-serif;
     padding: 20px;
     text-align: center;
-    width: 25vw;
-    height: 20vh;
+    width: 300px;
+    height: 8.5rem;
     transition: .5s ease all;
     transform: scale(.7);
     opacity: 1;
