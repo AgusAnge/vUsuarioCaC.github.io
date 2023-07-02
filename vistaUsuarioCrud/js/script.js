@@ -40,16 +40,19 @@ btnComprar.addEventListener('click', () => {
     popup.classList.add('active')
 });
 
-btnCerrarPopup.addEventListener('click', ()=> {
+btnCerrarPopup.addEventListener('click', () => {
     overlay.classList.remove('active')
     popup.classList.remove('active')
+
+
     carrito = {}
     drawCarrito()
 })
 
-btnSubmit.addEventListener('click', ()=> {
+btnSubmit.addEventListener('click', () => {
     overlay.classList.remove('active')
     popup.classList.remove('active')
+
     carrito = {}
     drawCarrito()
 })
@@ -76,7 +79,7 @@ const drawCard = data => {
         templateCard.querySelector('strong').textContent = element.precio
         templateCard.querySelector('img').setAttribute('src', element.imagen)
         templateCard.querySelector('.btn-dark').dataset.id = element.id //id automatico segun json
-
+        templateCard.querySelector('.spanUnidades').textContent = element.stock
         const clone = templateCard.cloneNode(true)
         fragment.appendChild(clone)
     });
@@ -106,14 +109,15 @@ const setCarrito = objeto => {
     //console.log(producto)
     if (carrito.hasOwnProperty(producto.id)) {
         producto.cantidad = carrito[producto.id].cantidad + 1
-        
+
     }
     carrito[producto.id] = { ...producto } //hace una copia del producto, en la posicion producto.id del carrito
     //con los ... solo adquiere la info de producto
     //console.log(carrito)
+    actualizarStock(producto);
     drawCarrito()
     btnComprar.style.display = 'flex';
-    
+
 }
 
 //IMPRESION DEL CARRITO EN EL DOM
@@ -164,6 +168,11 @@ const drawFooter = () => {
     //funcionalidad boton limpiar carrito de compras
     const btnErase = document.getElementById('vaciar-carrito')
     btnErase.addEventListener('click', () => {
+        // PRUEBA
+        Object.values(carrito).forEach((producto) => {
+            retornarStock(producto);
+        });
+        // FIN PRUEBA
         carrito = {}
         btnComprar.style.display = 'none';
         drawCarrito()
@@ -191,3 +200,59 @@ const btnAccion = (event) => {
     }
     event.stopPropagation()
 }
+
+
+//ACTUALIZACION DE STOCK
+actualizarStock = objeto => {
+    const url = "https://agusange01.pythonanywhere.com/productos/";
+    fetch(url + objeto.id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.stock > 0) {
+                data.stock -= 1;
+                this.guardarStock(data);
+            }
+            if (data.stock < objeto.cantidad) {
+                alert("No hay suficientes existencias")
+            }
+        })
+        .catch(error => {
+            console.error("Error al actualizar el stock:", error);
+        });
+}
+
+guardarStock = (data) => {
+    const url = "https://agusange01.pythonanywhere.com/productos/";
+    fetch(url + data.id, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Stock actualizado:", data);
+
+            //window.location.href="./carrito.html"
+        })
+        .catch(error => {
+            console.error("Error al guardar el stock:", error);
+        });
+}
+
+
+
+//RETORNAR STOCK AL CANCELARSE
+const retornarStock = (producto) => {
+    const url = "https://agusange01.pythonanywhere.com/productos/";
+    fetch(url + producto.id)
+        .then((response) => response.json())
+        .then((data) => {
+            data.stock += producto.cantidad; // Aumenta el stock por la cantidad del producto devuelto
+            guardarStock(data); // Llama a la función guardarStock para actualizar el stock en el servidor
+        })
+        .catch((error) => {
+            console.error("Error al retornar el stock:", error);
+        });
+};

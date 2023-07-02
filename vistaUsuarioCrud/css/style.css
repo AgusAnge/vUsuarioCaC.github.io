@@ -128,6 +128,21 @@
 
 
 }
+
+
+/* TARJETA ARREGLOS */
+.h6Unidades{
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-top: 0;
+    display: block;
+    opacity: .5;
+}
+
+.pPrecio{
+    margin-bottom: 0px;
+}
+
 /* animacion */
 @keyframes entrada{ 
     from{
